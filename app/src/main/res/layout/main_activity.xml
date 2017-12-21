@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:frisson="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        android:visibility="gone"
+        layout="@layout/app_bar_layout" />
+
+    <LinearLayout
+        android:layout_below="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/loginBtnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/btnConnect"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_bg_round_square"
+                android:text="Connect"
+                android:textColor="@color/grey_white_1000" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAfterLoginView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="100dp"
+                android:layout_height="match_parent">
+
+                <com.intrusoft.library.FrissonView
+                    android:id="@+id/wave_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    frisson:alphaValue="50"
+                    frisson:gradientType="radial"
+                    frisson:gradient_endColor="@color/colorPrimaryDark"
+                    frisson:gradient_startColor="@color/colorPrimary"
+                    frisson:tideCount="3"
+                    frisson:tideHeight="40dp"
+                    frisson:tintColor="@color/colorAccent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgUserProfile"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp" />
+
+                    <com.test.testinsta.custom.TextViewCustom
+                        android:id="@+id/txtUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textColor="@color/grey_white_1000"
+                        android:textSize="20dp" />
+
+                    <com.test.testinsta.custom.TextViewCustom
+                        android:id="@+id/txtUserFollowers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey_white_1000"
+                        android:textSize="14dp" />
+
+                    <com.test.testinsta.custom.TextViewCustom
+                        android:id="@+id/txtUserFollowing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey_white_1000"
+                        android:textSize="14dp" />
+
+                    <com.test.testinsta.custom.TextViewCustom
+                        android:id="@+id/txtUserPost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey_white_1000"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_200"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_layout_plain" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
+        app:cardBackgroundColor="@color/grey_white_1000"
+        app:cardCornerRadius="5dp"
+        app:contentPadding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User name"
+                android:textAllCaps="true"
+                android:textColor="@color/grey_700"
+                android:textSize="12dp" />
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:id="@+id/txtUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey_black_1000"
+                android:textSize="16dp" />
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Full name"
+                android:layout_marginTop="5dp"
+                android:textAllCaps="true"
+                android:textColor="@color/grey_700"
+                android:textSize="12dp" />
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:id="@+id/txtUserFullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey_black_1000"
+                android:textSize="16dp" />
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Bio"
+                android:textAllCaps="true"
+                android:textColor="@color/grey_700"
+                android:textSize="12dp" />
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:id="@+id/txtUserBio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey_black_1000"
+                android:textSize="16dp" />
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="website"
+                android:textAllCaps="true"
+                android:textColor="@color/grey_700"
+                android:textSize="12dp" />
+
+            <com.test.testinsta.custom.TextViewCustom
+                android:id="@+id/txtUserWebsite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:textColor="@color/grey_black_1000"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

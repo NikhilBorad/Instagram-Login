@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">TestInsta</string>
+    <string name="no_internet">Requires Internet connection</string>
+    <string name="insta_client_id">a017fdd1ddba469386717abf564acc37</string>
+
+    <string name="text_inside_circle_button_text_normal">Text Inside Circle Button(Normal)</string>
+    <string name="text_inside_circle_button_text_highlighted">Text Inside Circle Button(Highlighted)</string>
+    <string name="text_inside_circle_button_text_unable">Text Inside Circle Button(Unable)</string>
+
+    <string name="text_outside_circle_button_text_normal">Text Outside Circle Button(Normal)</string>
+    <string name="text_outside_circle_button_text_highlighted">Text Outside Circle Button(Highlighted)</string>
+    <string name="text_outside_circle_button_text_unable">Text Outside Circle Button(Unable)</string>
+
+    <string name="profile">PROFILE</string>
+    <string name="photos">PHOTOS</string>
+    <string name="logout">LOGOUT</string>
+</resources>
