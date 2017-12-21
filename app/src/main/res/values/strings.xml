@@ -14,4 +14,6 @@
     <string name="profile">PROFILE</string>
     <string name="photos">PHOTOS</string>
     <string name="logout">LOGOUT</string>
+
+    <string name="google_maps_key">AIzaSyDyFjaFu_TuP3_vUNSUY5eripaa8Gf0efQ</string>
 </resources>

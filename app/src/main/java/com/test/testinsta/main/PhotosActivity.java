@@ -103,7 +103,7 @@ public class PhotosActivity extends BaseAppCompactActivity {
                 if (imageModelList.size() == 0) {
                     nbToast("Oops! No data available");
                 } else {
-                    startActivity(new Intent(PhotosActivity.this, GeoJsonActivity.class));
+                    startActivity(new Intent(PhotosActivity.this, MapActivity.class));
                 }
             }
         });
