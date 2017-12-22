@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationServices;
 import com.test.testinsta.BaseAppCompactActivity;
 import com.test.testinsta.R;
 import com.test.testinsta.adapter.MyGridListAdapter;
+import com.test.testinsta.custom.SyncAllPost;
 import com.test.testinsta.db.GalleryDBModel;
 import com.test.testinsta.helper.InstagramApp;
 import com.test.testinsta.helper.InstagramSession;
@@ -42,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -156,7 +156,7 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
     private void getAllMediaImages() {
         pd = ProgressDialog.show(context, "", "Loading images...");
         if (nbIsNetworkAvailable(getApplicationContext())) {
-            GalleryDBModel.deleteAll(GalleryDBModel.class);
+//            GalleryDBModel.deleteAll(GalleryDBModel.class);
             new Thread(new Runnable() {
 
                 @Override
@@ -213,7 +213,6 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
                                 galleryModel.setLocation_lat("0.0");
                                 galleryModel.setLocation_long("0.0");
                             }
-                            addToDb(galleryModel);
                             imageModelList.add(galleryModel);
                         }
 
@@ -221,6 +220,7 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
                         exception.printStackTrace();
                         what = WHAT_ERROR;
                     }
+                    new SyncAllPost().execute(imageModelList);
                     // pd.dismiss();
                     handler.sendEmptyMessage(what);
                 }

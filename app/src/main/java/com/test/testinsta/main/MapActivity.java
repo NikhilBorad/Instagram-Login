@@ -77,6 +77,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             if (!lat.equals("") && !lng.equals("0.0")) {
                 data.add(lat + "#n#N#n#" + lng);
             }
+//            else{
+//                data.add("23.0225#n#N#n#72.5714");
+//            }
         }
         return data;
     }
@@ -99,8 +102,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(point);
-        markerOptions.title("Position");
-        markerOptions.snippet("Latitude:" + point.latitude + ",Longitude" + point.longitude);
+        markerOptions.title("Image Pin");
+        markerOptions.snippet("Lat:" + point.latitude + ",Long:" + point.longitude);
         googleMap.addMarker(markerOptions);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(point));
 
