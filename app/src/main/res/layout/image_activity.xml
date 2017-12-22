@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/app_bar"
-        layout="@layout/app_bar_layout_plain" />
+        layout="@layout/app_bar_layout_filter" />
 
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/imageView"

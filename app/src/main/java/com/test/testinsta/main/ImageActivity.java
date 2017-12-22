@@ -1,12 +1,16 @@
 package com.test.testinsta.main;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +23,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.test.testinsta.BaseAppCompactActivity;
 import com.test.testinsta.R;
+import com.test.testinsta.custom.ImageDownload;
 import com.test.testinsta.model.GalleryModel;
 
 import java.io.BufferedInputStream;
@@ -31,6 +36,7 @@ import java.net.URL;
 public class ImageActivity extends BaseAppCompactActivity {
 
 
+    private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 330;
     SubsamplingScaleImageView imageView;
     private Bundle bundle;
     private Bitmap loaded_bitmap;
@@ -85,6 +91,32 @@ public class ImageActivity extends BaseAppCompactActivity {
                 onBackPressed();
             }
         });
+        findViewById(R.id.imgFilter).setVisibility(View.GONE);
+        findViewById(R.id.imgSave).setVisibility(View.VISIBLE);
+        ((ImageView) findViewById(R.id.imgSave)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prepareForDownload();
+            }
+        });
+    }
+
+    private void prepareForDownload() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            startDownload();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_WRITE_EXTERNAL_STORAGE);
+        }
+
+    }
+
+    private void startDownload() {
+
+        ImageDownload imageDownload = new ImageDownload();
+        imageDownload.DownloadFromUrl(getApplicationContext(), gallerModel.getImgOri(), gallerModel.getId() + "_testInsta");
 
     }
 
@@ -127,5 +159,18 @@ public class ImageActivity extends BaseAppCompactActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_WRITE_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    prepareForDownload();
+                } else {
+                    nbToast("Need your file access to save image");
+                }
+
+                break;
+        }
+    }
 
 }
