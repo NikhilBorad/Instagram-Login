@@ -1,13 +1,20 @@
 package com.test.testinsta.main;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.test.testinsta.BaseAppCompactActivity;
 import com.test.testinsta.R;
 import com.test.testinsta.adapter.MyGridListAdapter;
@@ -39,8 +49,9 @@ import java.util.List;
  * Created by Nikhil-PC on 20/12/17.
  */
 
-public class PhotosActivity extends BaseAppCompactActivity {
+public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final int PERMISSION_ACCESS_COARSE_LOCATION = 600;
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private GridView gvAllImages;
@@ -54,7 +65,9 @@ public class PhotosActivity extends BaseAppCompactActivity {
     public static final String TAG_THUMBNAIL = "thumbnail";
     public static final String TAG_STD_RESOL = "standard_resolution";
     public static final String TAG_URL = "url";
-    private ArrayList<GalleryModel> imageModelList = new ArrayList<>();
+    private List<GalleryModel> imageModelList = new ArrayList<>();
+    private GoogleApiClient googleApiClient;
+    private Location lastLocation = null;
 
     private Handler handler = new Handler(new Callback() {
 
@@ -72,11 +85,12 @@ public class PhotosActivity extends BaseAppCompactActivity {
         }
     });
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photos_activity);
-
+        googleApiClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
         intialControl();
     }
 
@@ -124,6 +138,12 @@ public class PhotosActivity extends BaseAppCompactActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        ((ImageView) findViewById(R.id.imgFilter)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFilterClick();
             }
         });
 
@@ -190,8 +210,8 @@ public class PhotosActivity extends BaseAppCompactActivity {
                                 galleryModel.setLocation_lat(data_obj.getJSONObject("location").getString("latitude"));
                                 galleryModel.setLocation_long(data_obj.getJSONObject("location").getString("longitude"));
                             } catch (Exception e) {
-                                galleryModel.setLocation_lat("");
-                                galleryModel.setLocation_long("");
+                                galleryModel.setLocation_lat("0.0");
+                                galleryModel.setLocation_long("0.0");
                             }
                             addToDb(galleryModel);
                             imageModelList.add(galleryModel);
@@ -224,6 +244,40 @@ public class PhotosActivity extends BaseAppCompactActivity {
 
     }
 
+    private void onFilterClick() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            applyFilter();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSION_ACCESS_COARSE_LOCATION);
+        }
+    }
+
+    private void applyFilter() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            nbToast("Permission denied");
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if (lastLocation == null) {
+            nbToast("Permission denied");
+        } else {
+            imageModelList = sortLocations(imageModelList, lastLocation.getLatitude(), lastLocation.getLongitude());
+            nbToast("Filter applied");
+            setImageGridAdapter();
+        }
+
+    }
+
     public static List<GalleryModel> sortLocations(List<GalleryModel> locations, final double myLatitude, final double myLongitude) {
         Comparator comp = new Comparator<GalleryModel>() {
             @Override
@@ -244,4 +298,49 @@ public class PhotosActivity extends BaseAppCompactActivity {
         return locations;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onFilterClick();
+                } else {
+                    nbToast("Need your location to filter pins");
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (googleApiClient != null) {
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        googleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }

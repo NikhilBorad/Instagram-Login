@@ -74,7 +74,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
             // Getting the longitude
             lng = listData.get(i).getLocation_long();
-            if (!lat.equals("") && !lng.equals("")) {
+            if (!lat.equals("") && !lng.equals("0.0")) {
                 data.add(lat + "#n#N#n#" + lng);
             }
         }

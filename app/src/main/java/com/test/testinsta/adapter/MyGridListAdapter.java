@@ -12,17 +12,18 @@ import com.test.testinsta.R;
 import com.test.testinsta.model.GalleryModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nikhil-PC on 20/12/17.
  */
 
 public class MyGridListAdapter extends BaseAdapter {
-    private ArrayList<GalleryModel> galleryModelArrayList;
+    private List<GalleryModel> galleryModelArrayList;
     private LayoutInflater inflater;
     private Context mContext;
 
-    public MyGridListAdapter(Context context, ArrayList<GalleryModel> galleryModelArrayList) {
+    public MyGridListAdapter(Context context, List<GalleryModel> galleryModelArrayList) {
         mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
