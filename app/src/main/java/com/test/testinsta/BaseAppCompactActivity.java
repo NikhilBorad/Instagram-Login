@@ -94,7 +94,7 @@ public class BaseAppCompactActivity extends AppCompatActivity implements CONSTAN
 
     public void addToDb(GalleryModel galleryModel) {
         GalleryDBModel galleryDBModel = new GalleryDBModel();
-        galleryDBModel.setImage_id(galleryModel.getId());
+        galleryDBModel.setImage_id(galleryModel.getImage_id());
         galleryDBModel.setImgOri(galleryModel.getImgOri());
         galleryDBModel.setImgThumb(galleryModel.getImgThumb());
         galleryDBModel.setCaption(galleryModel.getCaption());

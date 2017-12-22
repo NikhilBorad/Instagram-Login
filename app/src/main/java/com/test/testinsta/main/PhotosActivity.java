@@ -76,6 +76,7 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
             if (pd != null && pd.isShowing())
                 pd.dismiss();
             if (msg.what == WHAT_FINALIZE) {
+                new SyncAllPost().execute(imageModelList);
                 setImageGridAdapter();
             } else {
                 Toast.makeText(context, "Check your network.",
@@ -200,7 +201,7 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
                             String thumb_url = thumbnail_obj.getString(TAG_URL);
                             String original_url = images_obj.getJSONObject(TAG_STD_RESOL).getString(TAG_URL);
                             GalleryModel galleryModel = new GalleryModel();
-                            galleryModel.setId(data_obj.getString("id"));
+                            galleryModel.setImage_id(data_obj.getString("id"));
                             galleryModel.setImgThumb(thumb_url);
                             galleryModel.setImgOri(original_url);
                             galleryModel.setComment_count(data_obj.getJSONObject("comments").getString("count"));
@@ -220,7 +221,6 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
                         exception.printStackTrace();
                         what = WHAT_ERROR;
                     }
-                    new SyncAllPost().execute(imageModelList);
                     // pd.dismiss();
                     handler.sendEmptyMessage(what);
                 }
@@ -229,7 +229,7 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
             List<GalleryDBModel> listData = GalleryDBModel.listAll(GalleryDBModel.class);
             for (int i = 0; i < listData.size(); i++) {
                 GalleryModel galleryModel = new GalleryModel();
-                galleryModel.setId(listData.get(i).getImage_id());
+                galleryModel.setImage_id(listData.get(i).getImage_id());
                 galleryModel.setImgThumb(listData.get(i).getImgThumb());
                 galleryModel.setImgOri(listData.get(i).getImgOri());
                 galleryModel.setComment_count(listData.get(i).getComment_count());

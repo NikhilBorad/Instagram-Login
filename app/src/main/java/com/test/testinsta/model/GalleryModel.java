@@ -8,7 +8,15 @@ import java.io.Serializable;
 
 public class GalleryModel implements Serializable {
 
-    String id;
+    public String getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
+    }
+
+    String image_id;
     String imgThumb;
 
     public String getImgOri() {
@@ -76,14 +84,6 @@ public class GalleryModel implements Serializable {
 
     String location_lat;
     String location_long;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getImgThumb() {
         return imgThumb;

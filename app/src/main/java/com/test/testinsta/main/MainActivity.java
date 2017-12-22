@@ -176,10 +176,14 @@ public class MainActivity extends BaseAppCompactActivity implements OnClickListe
     }
 
     private void connectOrDisconnectUser() {
+        if (!nbIsNetworkAvailable(getApplicationContext())) {
+            nbToast(getString(R.string.no_internet));
+            return;
+        }
         if (mApp.hasAccessToken()) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(
                     MainActivity.this);
-            builder.setMessage("Disconnect from Instagram?")
+            builder.setMessage("Logout from Instagram?")
                     .setCancelable(false)
                     .setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {

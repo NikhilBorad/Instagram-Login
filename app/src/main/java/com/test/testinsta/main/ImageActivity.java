@@ -116,7 +116,7 @@ public class ImageActivity extends BaseAppCompactActivity {
     private void startDownload() {
 
         ImageDownload imageDownload = new ImageDownload();
-        imageDownload.DownloadFromUrl(getApplicationContext(), gallerModel.getImgOri(), gallerModel.getId() + "_testInsta");
+        imageDownload.DownloadFromUrl(getApplicationContext(), gallerModel.getImgOri(), gallerModel.getImage_id() + "_testInsta");
 
     }
 
