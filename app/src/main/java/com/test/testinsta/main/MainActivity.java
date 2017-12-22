@@ -25,6 +25,7 @@ import com.nightonke.boommenu.OnBoomListener;
 import com.test.testinsta.BaseAppCompactActivity;
 import com.test.testinsta.R;
 import com.test.testinsta.custom.BuilderManager;
+import com.test.testinsta.db.GalleryDBModel;
 import com.test.testinsta.helper.InstagramApp;
 
 import java.util.HashMap;
@@ -184,6 +185,7 @@ public class MainActivity extends BaseAppCompactActivity implements OnClickListe
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int id) {
+                                    GalleryDBModel.deleteAll(GalleryDBModel.class);
                                     mApp.resetAccessToken();
                                     loginBtnLayout.setVisibility(View.VISIBLE);
                                     toolbar.setVisibility(View.GONE);

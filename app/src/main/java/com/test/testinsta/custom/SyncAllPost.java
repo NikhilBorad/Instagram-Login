@@ -15,20 +15,22 @@ import java.util.List;
 public class SyncAllPost extends AsyncTask<List<GalleryModel>, String, String> {
 
     @Override
-    protected String doInBackground(List<GalleryModel>[] lists) {
+    protected String doInBackground(List<GalleryModel>[] listsAllData) {
 
         List<GalleryDBModel> oldData = GalleryDBModel.listAll(GalleryDBModel.class);
 
         if (oldData.size() == 0) {
-            for (int i = 0; i < lists[0].size(); i++) {
-                addToDb(lists[0].get(i));
+            for (int i = 0; i < listsAllData[0].size(); i++) {
+                addToDb(listsAllData[0].get(i));
             }
         } else {
-            for (int i = 0; i < lists[0].size(); i++) {
-                if (oldData.get(i).getImage_id().equals(lists[0].get(i).getId())) {
+            for (int i = 0; i < listsAllData[0].size(); i++) {
+                for (int j = 0; j < oldData.size(); j++) {
+                    if (oldData.get(j).getImage_id().equals(listsAllData[0].get(i).getId())) {
 //                    Log.e("DB", "CONTAIN");
-                } else {
-                    addToDb(lists[0].get(i));
+                    } else {
+                        addToDb(listsAllData[0].get(i));
+                    }
                 }
             }
         }
