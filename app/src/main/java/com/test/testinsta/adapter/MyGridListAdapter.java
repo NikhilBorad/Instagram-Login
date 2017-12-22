@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.test.testinsta.R;
+import com.test.testinsta.model.GalleryModel;
 
 import java.util.ArrayList;
 
@@ -17,21 +18,21 @@ import java.util.ArrayList;
  */
 
 public class MyGridListAdapter extends BaseAdapter {
-    private ArrayList<String> imageThumbList;
+    private ArrayList<GalleryModel> galleryModelArrayList;
     private LayoutInflater inflater;
     private Context mContext;
 
-    public MyGridListAdapter(Context context, ArrayList<String> imageThumbList) {
+    public MyGridListAdapter(Context context, ArrayList<GalleryModel> galleryModelArrayList) {
         mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.imageThumbList = imageThumbList;
+        this.galleryModelArrayList = galleryModelArrayList;
 //        this.imageLoader = new ImageLoader(context);
     }
 
     @Override
     public int getCount() {
-        return imageThumbList.size();
+        return galleryModelArrayList.size();
     }
 
     @Override
@@ -51,7 +52,7 @@ public class MyGridListAdapter extends BaseAdapter {
         holder.ivPhoto = (ImageView) view.findViewById(R.id.ivImage);
 
         Glide.with(mContext)
-                .load(imageThumbList.get(position))
+                .load(galleryModelArrayList.get(position).getImgThumb())
                 .into(holder.ivPhoto);
 
         return view;

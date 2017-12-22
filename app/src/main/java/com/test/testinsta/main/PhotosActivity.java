@@ -29,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +45,6 @@ public class PhotosActivity extends BaseAppCompactActivity {
     private FloatingActionButton fab;
     private GridView gvAllImages;
     private HashMap<String, String> userInfo;
-    private ArrayList<String> imageThumbList = new ArrayList<String>();
     private Context context;
     private int WHAT_FINALIZE = 0;
     private static int WHAT_ERROR = 1;
@@ -129,21 +130,19 @@ public class PhotosActivity extends BaseAppCompactActivity {
     }
 
     private void setImageGridAdapter() {
-        gvAllImages.setAdapter(new MyGridListAdapter(context, imageThumbList));
+        gvAllImages.setAdapter(new MyGridListAdapter(context, imageModelList));
     }
 
     private void getAllMediaImages() {
         pd = ProgressDialog.show(context, "", "Loading images...");
-        GalleryDBModel.deleteAll(GalleryDBModel.class);
         if (nbIsNetworkAvailable(getApplicationContext())) {
-//            GalleryDBModel.
+            GalleryDBModel.deleteAll(GalleryDBModel.class);
             new Thread(new Runnable() {
 
                 @Override
                 public void run() {
                     int what = WHAT_FINALIZE;
                     try {
-                        // URL url = new URL(mTokenUrl + "&code=" + code);
                         JSONParser jsonParser = new JSONParser();
 //					JSONObject jsonObject = jsonParser
 //							.getJSONFromUrlByGet("https://api.instagram.com/v1/users/"
@@ -180,7 +179,6 @@ public class PhotosActivity extends BaseAppCompactActivity {
 
                             String thumb_url = thumbnail_obj.getString(TAG_URL);
                             String original_url = images_obj.getJSONObject(TAG_STD_RESOL).getString(TAG_URL);
-                            imageThumbList.add(thumb_url);
                             GalleryModel galleryModel = new GalleryModel();
                             galleryModel.setId(data_obj.getString("id"));
                             galleryModel.setImgThumb(thumb_url);
@@ -198,8 +196,6 @@ public class PhotosActivity extends BaseAppCompactActivity {
                             addToDb(galleryModel);
                             imageModelList.add(galleryModel);
                         }
-
-                        System.out.println("jsonObject::" + jsonObject);
 
                     } catch (Exception exception) {
                         exception.printStackTrace();
@@ -226,6 +222,26 @@ public class PhotosActivity extends BaseAppCompactActivity {
             handler.sendEmptyMessage(WHAT_FINALIZE);
         }
 
+    }
+
+    public static List<GalleryModel> sortLocations(List<GalleryModel> locations, final double myLatitude, final double myLongitude) {
+        Comparator comp = new Comparator<GalleryModel>() {
+            @Override
+            public int compare(GalleryModel o, GalleryModel o2) {
+                float[] result1 = new float[3];
+                android.location.Location.distanceBetween(myLatitude, myLongitude, Double.parseDouble(o.getLocation_lat()), Double.parseDouble(o.getLocation_long()), result1);
+                Float distance1 = result1[0];
+
+                float[] result2 = new float[3];
+                android.location.Location.distanceBetween(myLatitude, myLongitude, Double.parseDouble(o2.getLocation_lat()), Double.parseDouble(o2.getLocation_long()), result2);
+                Float distance2 = result2[0];
+
+                return distance1.compareTo(distance2);
+            }
+        };
+
+        Collections.sort(locations, comp);
+        return locations;
     }
 
 }

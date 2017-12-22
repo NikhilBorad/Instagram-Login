@@ -113,12 +113,8 @@ public class MainActivity extends BaseAppCompactActivity implements OnClickListe
                         nbToast(getString(R.string.no_internet));
                     }
                 } else if (index == 1) {
-                    if (nbIsNetworkAvailable(getApplicationContext())) {
-                        startActivity(new Intent(MainActivity.this, PhotosActivity.class)
-                                .putExtra("userInfo", userInfoHashmap));
-                    } else {
-                        nbToast(getString(R.string.no_internet));
-                    }
+                    startActivity(new Intent(MainActivity.this, PhotosActivity.class)
+                            .putExtra("userInfo", userInfoHashmap));
                 } else if (index == 2) {
                     connectOrDisconnectUser();
                 }

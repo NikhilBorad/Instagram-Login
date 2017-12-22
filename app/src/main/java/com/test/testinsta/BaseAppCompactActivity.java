@@ -102,6 +102,7 @@ public class BaseAppCompactActivity extends AppCompatActivity implements CONSTAN
         galleryDBModel.setLikes(galleryModel.getLikes());
         galleryDBModel.setLocation_lat(galleryModel.getLocation_lat());
         galleryDBModel.setLocation_long(galleryModel.getLocation_long());
+        galleryDBModel.save();
     }
 
 

@@ -42,7 +42,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private void intialControl() {
 
-//        seyUpActionBar();
+        setUpActionBar();
 
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
 
@@ -60,32 +60,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
             mapFragment.getMapAsync(this);
 
-            List<GalleryDBModel> listData = GalleryDBModel.listAll(GalleryDBModel.class);
-            ArrayList<String> total_data = getLatLong(listData);
-
-            if (total_data.size() == 0) {
-                Toast.makeText(this, "No Location base pin found.", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                String lat = "";
-                String lng = "";
-
-                for (int i = 0; i < total_data.size(); i++) {
-
-                    // Getting the latitude
-                    lat = total_data.get(i).split("#n#N#n#")[0];
-
-                    // Getting the longitude
-                    lng = total_data.get(i).split("#n#N#n#")[1];
-
-                    // Drawing marker on the map
-                    drawMarker(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)));
-                }
-
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng))));
-
-                googleMap.animateCamera(CameraUpdateFactory.zoomTo(Float.parseFloat("2")));
-            }
         }
 
     }
@@ -107,7 +81,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         return data;
     }
 
-    private void seyUpActionBar() {
+    private void setUpActionBar() {
 
         ((TextView) findViewById(R.id.txtTitle)).setText("Map Pins");
         ((ImageView) findViewById(R.id.imgBack)).setOnClickListener(new View.OnClickListener() {
@@ -121,7 +95,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private void drawMarker(LatLng point) {
         // Clears all the existing coordinates
-        googleMap.clear();
+//        googleMap.clear();
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(point);
@@ -140,6 +114,32 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         map.setBuildingsEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(true);
         googleMap = map;
+        List<GalleryDBModel> listData = GalleryDBModel.listAll(GalleryDBModel.class);
+        ArrayList<String> total_data = getLatLong(listData);
+
+        if (total_data.size() == 0) {
+            Toast.makeText(this, "No Location base pin found.", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            String lat = "";
+            String lng = "";
+
+            for (int i = 0; i < total_data.size(); i++) {
+
+                // Getting the latitude
+                lat = total_data.get(i).split("#n#N#n#")[0];
+
+                // Getting the longitude
+                lng = total_data.get(i).split("#n#N#n#")[1];
+
+                // Drawing marker on the map
+                drawMarker(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)));
+            }
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng))));
+
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(Float.parseFloat("2")));
+        }
     }
 
 }
