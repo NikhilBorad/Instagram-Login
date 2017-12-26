@@ -3,11 +3,15 @@ package com.test.testinsta.main;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.intrusoft.library.FrissonView;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -25,10 +31,12 @@ import com.nightonke.boommenu.OnBoomListener;
 import com.test.testinsta.BaseAppCompactActivity;
 import com.test.testinsta.R;
 import com.test.testinsta.custom.BuilderManager;
+import com.test.testinsta.custom.GlideAnimation;
 import com.test.testinsta.db.GalleryDBModel;
 import com.test.testinsta.helper.InstagramApp;
 
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Nikhil-PC on 20/12/17.
@@ -228,6 +236,18 @@ public class MainActivity extends BaseAppCompactActivity implements OnClickListe
 //                        wave_head.setBitmap(bitmap);
 //                    }
 //                });
-
+//        Glide.with(this)
+//                .asBitmap()
+//                .load(userInfoHashmap.get(InstagramApp.TAG_PROFILE_PICTURE))
+//                .into(new SimpleTarget<Bitmap>(SimpleTarget.SIZE_ORIGINAL, SimpleTarget.SIZE_ORIGINAL) {
+//                    @Override
+//                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+//
+//                    }
+//
+//                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+//                        wave_head.setBitmap(bitmap);
+//                    }
+//                });
     }
 }

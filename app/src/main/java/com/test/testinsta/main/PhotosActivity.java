@@ -37,6 +37,7 @@ import com.test.testinsta.jsonHelper.JSONParser;
 import com.test.testinsta.model.GalleryModel;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -60,11 +61,6 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
     private int WHAT_FINALIZE = 0;
     private static int WHAT_ERROR = 1;
     private ProgressDialog pd;
-    public static final String TAG_DATA = "data";
-    public static final String TAG_IMAGES = "images";
-    public static final String TAG_THUMBNAIL = "thumbnail";
-    public static final String TAG_STD_RESOL = "standard_resolution";
-    public static final String TAG_URL = "url";
     private List<GalleryModel> imageModelList = new ArrayList<>();
     private GoogleApiClient googleApiClient;
     private Location lastLocation = null;
@@ -207,6 +203,7 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
                             galleryModel.setComment_count(data_obj.getJSONObject("comments").getString("count"));
                             galleryModel.setCaption(data_obj.getString("caption"));
                             galleryModel.setLikes(data_obj.getJSONObject("likes").getString("count"));
+                            galleryModel.setTags(getTagText(data_obj.getJSONArray("tags")));
                             try {
                                 galleryModel.setLocation_lat(data_obj.getJSONObject("location").getString("latitude"));
                                 galleryModel.setLocation_long(data_obj.getJSONObject("location").getString("longitude"));
@@ -235,12 +232,31 @@ public class PhotosActivity extends BaseAppCompactActivity implements GoogleApiC
                 galleryModel.setComment_count(listData.get(i).getComment_count());
                 galleryModel.setCaption(listData.get(i).getCaption());
                 galleryModel.setLikes(listData.get(i).getLikes());
+                galleryModel.setTags(listData.get(i).getTags());
                 galleryModel.setLocation_lat(listData.get(i).getLocation_lat());
                 galleryModel.setLocation_long(listData.get(i).getLocation_long());
                 imageModelList.add(galleryModel);
             }
             handler.sendEmptyMessage(WHAT_FINALIZE);
         }
+
+    }
+
+    private String getTagText(JSONArray tags) {
+
+        String tag_text = "";
+        for (int i = 0; i < tags.length(); i++) {
+            try {
+                if (i == tags.length() - 1) {
+                    tag_text = tag_text + "#" + tags.get(i);
+                } else {
+                    tag_text = tag_text + "#" + tags.get(i)+", ";
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return tag_text;
 
     }
 

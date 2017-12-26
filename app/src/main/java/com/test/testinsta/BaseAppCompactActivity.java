@@ -27,6 +27,11 @@ public class BaseAppCompactActivity extends AppCompatActivity implements CONSTAN
 
     public SharedPreferences preferencesVal;
     public SharedPreferences.Editor editor;
+    public static final String TAG_DATA = "data";
+    public static final String TAG_IMAGES = "images";
+    public static final String TAG_THUMBNAIL = "thumbnail";
+    public static final String TAG_STD_RESOL = "standard_resolution";
+    public static final String TAG_URL = "url";
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,19 +95,6 @@ public class BaseAppCompactActivity extends AppCompatActivity implements CONSTAN
         }
 
         return str;
-    }
-
-    public void addToDb(GalleryModel galleryModel) {
-        GalleryDBModel galleryDBModel = new GalleryDBModel();
-        galleryDBModel.setImage_id(galleryModel.getImage_id());
-        galleryDBModel.setImgOri(galleryModel.getImgOri());
-        galleryDBModel.setImgThumb(galleryModel.getImgThumb());
-        galleryDBModel.setCaption(galleryModel.getCaption());
-        galleryDBModel.setComment_count(galleryModel.getComment_count());
-        galleryDBModel.setLikes(galleryModel.getLikes());
-        galleryDBModel.setLocation_lat(galleryModel.getLocation_lat());
-        galleryDBModel.setLocation_long(galleryModel.getLocation_long());
-        galleryDBModel.save();
     }
 
 

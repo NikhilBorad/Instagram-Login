@@ -68,6 +68,7 @@ public class ImageActivity extends BaseAppCompactActivity {
         else
             ((TextView) findViewById(R.id.txtComment)).setText(gallerModel.getComment_count() + " Comments");
 
+        ((TextView) findViewById(R.id.txtTag)).setText(gallerModel.getTags());
         try {
             getHighResImage info = new getHighResImage();
             info.execute("");

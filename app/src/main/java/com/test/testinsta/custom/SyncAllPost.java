@@ -72,6 +72,7 @@ public class SyncAllPost extends AsyncTask<List<GalleryModel>, String, String> {
         galleryDBModel.setCaption(galleryModel.getCaption());
         galleryDBModel.setComment_count(galleryModel.getComment_count());
         galleryDBModel.setLikes(galleryModel.getLikes());
+        galleryDBModel.setTags(galleryModel.getTags());
         galleryDBModel.setLocation_lat(galleryModel.getLocation_lat());
         galleryDBModel.setLocation_long(galleryModel.getLocation_long());
         galleryDBModel.save();
